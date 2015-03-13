@@ -4,6 +4,7 @@
 var User = require('./../models/userModel.js');
 module.exports = {
     findAllUsers: function(req, res) {
+        console.log("here");
         return User.find(function(err, pets) {
             if(!err) {
                 return res.send({status: 'OK', pets:pets});

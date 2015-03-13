@@ -7,9 +7,9 @@
 
 var controllers = require('./../controllers/usersController.js');
 module.exports = function(app) {
-    app.get('/pets', controllers.findAllUsers);
-    app.get('/pet/:id', controllers.findById);
-    app.post('/pet', controllers.addUser);
-    app.put('/pet/:id', controllers.updateUser);
-    app.delete('/pet/:id', controllers.deleteUser);
+    app.get('/users', controllers.findAllUsers);
+    app.get('/user/:id', controllers.findById);
+    app.post('/user', controllers.addUser);
+    app.put('/user/:id', controllers.updateUser);
+    app.delete('/user/:id', controllers.deleteUser);
 };
