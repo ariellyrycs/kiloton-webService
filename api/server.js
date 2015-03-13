@@ -1,8 +1,9 @@
 
-/*globals require, responder, process, __dirname*/
+/*globals require, process, __dirname*/
 'use strict';
 var express = require('express'),
     mongoose = require('mongoose'),
+    responder = require('./httpResponder'),
     fs = require('fs'),
     app = express(),
     jsFiles;
