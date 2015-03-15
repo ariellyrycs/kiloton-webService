@@ -1,10 +1,13 @@
 /**
  * Created by arobles on 3/13/15.
  */
-module.exports = function(app) {/*
- app.get('/pets', controllers.findAllPets);
- app.get('/pet/:id', controllers.findById);
- app.post('/pet', controllers.addPet);
- app.put('/pet/:id', controllers.updatePet);
- app.delete('/pet/:id', controllers.deletePet);*/
+/*globals require, module*/
+
+var controllers = require('./../controllers/interactionsController.js');
+module.exports = function(app) {
+ app.get('/interactions', controllers.findAllInteractions);
+ app.get('/interaction/:id', controllers.findById);
+ app.post('/interaction', controllers.addInteraction);
+ app.put('/interaction/:id', controllers.updateInteraction);
+ app.delete('/interaction/:id', controllers.deleteInteraction);
 };
