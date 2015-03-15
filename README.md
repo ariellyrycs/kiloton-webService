@@ -16,6 +16,6 @@ Using mongodb mongoose and express
 ```sudo mkdir -p /data/db```<br><br>
 <code>sudo chown &#96;id -u&#96; /data/db </code><br><br>
 **Connect mongoose with mongodb:**<br><br>
-```mongod --dbpath /srv/mongodb/```<br><br>
+```mongod --dbpath /data/db```<br><br>
 **Run server:**<br>
 ```node ./api/server.js```
