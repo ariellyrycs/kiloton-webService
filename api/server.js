@@ -4,11 +4,14 @@
 var express = require('express'),
     mongoose = require('mongoose'),
     responder = require('./httpResponder'),
+    bodyParser  = require('body-parser'),
     fs = require('fs'),
     app = express(),
     jsFiles;
 
 app.set('port', process.env.PORT || 4000);
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(function (req, res, next){
     res.type('application/json');
     res.locals.respond = responder.setup(res);
@@ -22,7 +25,7 @@ fs.readdirSync(__dirname + '/routes').forEach(function (fileName) {
     }
 });
 
-mongoose.connect('mongodb://localhost/pets', function(err) {
+mongoose.connect('mongodb://localhost/users', function(err) {
     if(err) {
         console.log('error connecting to MongoDB Database. ' + err);
     } else {

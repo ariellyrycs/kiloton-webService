@@ -1,13 +1,12 @@
-/* globals module*/
+/* globals module, require*/
 
 'use strict';
 var User = require('./../models/userModel.js');
 module.exports = {
     findAllUsers: function(req, res) {
-        console.log("here");
-        return User.find(function(err, pets) {
+        return User.find(function(err, users) {
             if(!err) {
-                return res.send({status: 'OK', pets:pets});
+                return res.send({status: 'OK', users:users});
             } else {
                 res.statusCode = 500;
                 console.error('Error', res.statusCode, err.message);
@@ -16,13 +15,13 @@ module.exports = {
         });
     },
     findById: function(req, res) {
-        return User.findById(req.params.id, function(err, pet) {
-            if(!pet) {
+        return User.findById(req.params.id, function(err, user) {
+            if(!user) {
                 res.statusCode = 404;
                 return res.send({ error: 'Not found' });
             }
             if(!err) {
-                return res.send({ status: 'OK', pet:pet });
+                return res.send({ status: 'OK', user:user });
             } else {
                 res.statusCode = 500;
                 console.error('Error', res.statusCode, err.message);
@@ -31,43 +30,46 @@ module.exports = {
         });
     },
     addUser: function(req, res) {
-        console.log(req.body);
-        var User = new User({
-            animal:    req.body.animal,
-            age :    req.body.age,
-            color:    req.body.color
+        var user = new User({
+            accessToken:    req.body.accessToken,
+            idProfile :    req.body.idProfile,
+            name:    req.body.name,
+            active: req.body.active
         });
-        User.save(function(err) {
+        user.save(function(err) {
             var toPrint = null;
             if(err) {
-                console.log('Error while saving pet: ' + err);
+                console.log('Error while saving user: ' + err);
                 res.send({ error:err });
             } else {
-                console.log("Pet created");
-                toPrint =  res.send({ status: 'OK', pet:pet });
+                console.log("User created");
+                toPrint =  res.send({ status: 'OK', user:user });
             }
             return toPrint;
         });
     },
     updateUser: function(req, res) {
-        return User.findById(req.params.id, function(err, pet) {
-            if(!User) {
+        return User.findById(req.params.id, function(err, user) {
+            if(!user) {
                 res.statusCode = 404;
                 return res.send({ error: 'Not found' });
             }
-            if (req.body.animal !== null) {
-                pet.animal = req.body.animal;
+            if (req.body.accessToken !== null) {
+                user.accessToken = req.body.accessToken;
             }
-            if (req.body.age !== null) {
-                pet.age = req.body.age;
+            if (req.body.idProfile !== null) {
+                user.idProfile = req.body.idProfile;
             }
-            if (req.body.color !== null) {
-                pet.color = req.body.color;
+            if (req.body.name !== null) {
+                user.name = req.body.name;
             }
-            return User.save(function(err) {
+            if (req.body.name !== null) {
+                user.active = req.body.active;
+            }
+            return user.save(function(err) {
                 if(!err) {
                     console.log('Updated');
-                    return res.send({ status: 'OK', pet:pet });
+                    return res.send({ status: 'OK', user:user });
                 } else {
                     if(err.name === 'ValidationError') {
                         res.statusCode = 400;
@@ -78,19 +80,19 @@ module.exports = {
                     }
                     console.error('Error',res.statusCode,err.message);
                 }
-                return res.send(pet);
+                return res.send(user);
             });
         });
     },
     deleteUser: function(req, res) {
-        return User.findById(req.params.id, function(err, pet) {
-            if(!User) {
+        return User.findById(req.params.id, function(err, user) {
+            if(!user) {
                 res.statusCode = 404;
                 return res.send({ error: 'Not found' });
             }
-            return User.remove(function(err) {
+            return user.remove(function(err) {
                 if(!err) {
-                    console.log('Removed pet');
+                    console.log('Removed user');
                     return res.send({ status: 'OK' });
                 } else {
                     res.statusCode = 500;
