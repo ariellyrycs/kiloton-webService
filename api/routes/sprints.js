@@ -1,10 +1,14 @@
 /**
  * Created by arobles on 3/13/15.
  */
-module.exports = function(app) {/*
- app.get('/pets', controllers.findAllPets);
- app.get('/pet/:id', controllers.findById);
- app.post('/pet', controllers.addPet);
- app.put('/pet/:id', controllers.updatePet);
- app.delete('/pet/:id', controllers.deletePet);*/
+
+/*globals module, require*/
+
+var controllers = require('./../controllers/sprintsController.js');
+module.exports = function(app) {
+ app.get('/sprints', controllers.findAllSprints);
+ app.get('/sprint/:id', controllers.findById);
+ app.post('/sprint', controllers.addSprint);
+ app.put('/sprint/:id', controllers.updateSprint);
+ app.delete('/sprint/:id', controllers.deleteSprint);
 };
