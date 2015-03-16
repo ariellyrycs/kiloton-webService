@@ -3,7 +3,7 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    interaction = new Schema({
+    InteractionSchema = new Schema({
         comment: {
             type    : String,
             require : true
@@ -27,7 +27,10 @@ var mongoose = require('mongoose'),
         modified: {
             type    : Date,
             default : Date.now
+        },
+        sprint: {
+            type: Schema.ObjectId,
+            ref: 'sprint'
         }
     });
-
-module.exports = mongoose.model('interaction', interaction);
+module.exports = mongoose.model('interaction', InteractionSchema);

@@ -1,9 +1,9 @@
 'use strict';
-/*globals require*/
+/*globals require, module*/
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    user = new Schema({
+    UserShema = new Schema({
         accessToken: {
             type    : String,
             require : true
@@ -26,4 +26,4 @@ var mongoose = require('mongoose'),
         }
 });
 
-module.exports = mongoose.model('user', user);
+module.exports = mongoose.model('user', UserShema);

@@ -1,9 +1,9 @@
 'use strict';
-/*globals require*/
+/*globals require, module*/
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    sprint = new Schema({
+    SprintSchema = new Schema({
         currentDate: {
             type    : Date,
             require : true
@@ -27,7 +27,11 @@ var mongoose = require('mongoose'),
         modified: {
             type    : Date,
             default : Date.now
+        },
+        user: {
+            type: Schema.ObjectId,
+            ref: 'user'
         }
     });
 
-module.exports = mongoose.model('sprint', sprint);
+module.exports = mongoose.model('sprint', SprintSchema);
