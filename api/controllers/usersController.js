@@ -2,6 +2,7 @@
 
 'use strict';
 var User = require('./../models/userModel.js');
+var Sprint = require('./../models/sprintModel.js');
 module.exports = {
     findAllUsers: function(req, res) {
         return User.find(function(err, users) {
@@ -101,5 +102,23 @@ module.exports = {
                 }
             });
         });
+    },
+    checkUserExistence: function (req, res, next) {
+        User.findById(req.params.uId, function(err, user) {
+            var error;
+            if (user) {
+                next();
+            } else {
+                error = new Error('cannot find user ' + req.params.uId);
+                error.status = 404;
+                return res.send(error);
+            }
+        });
+    },
+    findAllSprintsByUser: function (req,res) {
+
+    },
+    findAllInteractionBySprint: function () {
+
     }
 };

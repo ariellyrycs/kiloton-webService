@@ -3,11 +3,15 @@
  */
 /*globals require, module*/
 
-var controllers = require('./../controllers/interactionsController.js');
+var controllers = require('./../controllers/interactionsController'),
+    userController = require('./../controllers/usersController'),
+    sprintController = require('./../controllers/sprintsController');
 module.exports = function(app) {
- app.get('/interactions', controllers.findAllInteractions);
- app.get('/interaction/:id', controllers.findById);
- app.post('/interaction', controllers.addInteraction);
- app.put('/interaction/:id', controllers.updateInteraction);
- app.delete('/interaction/:id', controllers.deleteInteraction);
+    app.get('/interactions', controllers.findAllInteractions);
+
+
+    app.get('/user/:uId/sprint/:sId/interaction/:iId', [userController.checkUserExistence, sprintController.checkSprintExistence, controllers.findById]);
+    app.post('/user/:uId/sprint/:sId/interaction', controllers.addInteraction);
+    app.put('/user/:uId/sprint/:sId/interaction/:iId', [userController.checkUserExistence, sprintController.checkSprintExistence, controllers.updateInteraction]);
+    app.delete('/user/:uId/sprint/:sId/interaction/:iId', [userController.checkUserExistence, sprintController.checkSprintExistence, controllers.deleteInteraction]);
 };

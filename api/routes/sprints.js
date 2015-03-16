@@ -8,8 +8,8 @@ var controllers = require('./../controllers/sprintsController'),
     userController = require('./../controllers/usersController');
 module.exports = function(app) {
     app.get('/sprints', controllers.findAllSprints);
-    app.get('/user/:userId/sprint/:sprintId', [userController.checkUserExistence, controllers.findById]);
-    app.post('/user/:userId/sprint/', [userController.checkUserExistence, controllers.addSprint]);
-    app.put('/user/:userId/sprint/:sprintId', [userController.checkUserExistence, controllers.updateSprint]);
-    app.delete('/user/:userId/sprint/:sprintId', [userController.checkUserExistence, controllers.deleteSprint]);
+    app.get('/user/:uId/sprint/:sprintId', [userController.checkUserExistence, controllers.findById]);
+    app.post('/user/:uId/sprint/', [userController.checkUserExistence, controllers.addSprint]);
+    app.put('/user/:uId/sprint/:sprintId', [userController.checkUserExistence, controllers.updateSprint]);
+    app.delete('/user/:uId/sprint/:sprintId', [userController.checkUserExistence, controllers.deleteSprint]);
 };

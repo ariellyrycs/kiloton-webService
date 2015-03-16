@@ -18,7 +18,7 @@ module.exports = {
     findById: function(req, res) {
         Sprint.findById(req.params.sprintId, function(err, sprint) {
             User.populate(sprint, { path: 'user' }, function(err, user) {
-                if(!user || !user.user || user.user._id != req.params.userId) {
+                if(!user || !user.user || user.user._id != req.params.uId) {
                     res.statusCode = 404;
                     return res.send({ error: 'Not found' });
                 }
@@ -39,7 +39,7 @@ module.exports = {
             currentWeight:  req.body.currentWeight,
             weightObjective:req.body.weightObjective,
             image:          req.body.image,
-            user:           req.params.userId
+            user:           req.params.uId
         });
         sprint.save(function(err) {
             var toPrint = null;
@@ -56,7 +56,7 @@ module.exports = {
     updateSprint: function(req, res) {
         Sprint.findById(req.params.sprintId, function(err, sprint) {
             User.populate(sprint, { path: 'user' }, function(err, user) {
-                if(!user || !user.user || user.user._id != req.params.userId) {
+                if(!user || !user.user || user.user._id != req.params.uId) {
                     res.statusCode = 404;
                     return res.send({error: 'Not found'});
                 } else if(!err) {
@@ -102,7 +102,7 @@ module.exports = {
     deleteSprint: function(req, res) {
         Sprint.findById(req.params.sprintId, function(err, sprint) {
             User.populate(sprint, {path: 'user'}, function (err, user) {
-                if(!user || !user.user || user.user._id != req.params.userId) {
+                if(!user || !user.user || user.user._id != req.params.uId) {
                     res.statusCode = 404;
                     return res.send({error: 'Not found'});
                 } else if(!err) {
@@ -125,15 +125,17 @@ module.exports = {
         });
     },
     checkSprintExistence: function (req, res, next) {
-        Sprint.findById(req.params.sprintId, function(err, user) {
-            var error;
-            if (user) {
-                next();
-            } else {
-                error = new Error('cannot find sprint ' + req.params.sprintId);
-                error.status = 404;
-                return res.send(error);
-            }
+        Sprint.findById(req.params.sId, function(err, sprint) {
+            User.populate(sprint, { path: 'user' }, function(err, user) {
+                var error;
+                if(!user || !user.user || user.user._id != req.params.uId || err) {
+                    error = new Error('cannot find sprint ' + req.params.sId);
+                    error.statusCode = 404;
+                    return res.send(error);
+                } else {
+                    next();
+                }
+            });
         });
     }
 };
