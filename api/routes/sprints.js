@@ -4,11 +4,12 @@
 
 /*globals module, require*/
 
-var controllers = require('./../controllers/sprintsController.js');
+var controllers = require('./../controllers/sprintsController'),
+    userController = require('./../controllers/usersController');
 module.exports = function(app) {
- app.get('/sprints', controllers.findAllSprints);
- app.get('/sprint/:id', controllers.findById);
- app.post('/sprint', controllers.addSprint);
- app.put('/sprint/:id', controllers.updateSprint);
- app.delete('/sprint/:id', controllers.deleteSprint);
+    app.get('/sprints', controllers.findAllSprints);
+    app.get('/user/:userId/sprint/:sprintId', [userController.checkUserExistence, controllers.findById]);
+    app.post('/user/:userId/sprint/', [userController.checkUserExistence, controllers.addSprint]);
+    app.put('/user/:userId/sprint/:sprintId', [userController.checkUserExistence, controllers.updateSprint]);
+    app.delete('/user/:userId/sprint/:sprintId', [userController.checkUserExistence, controllers.deleteSprint]);
 };
