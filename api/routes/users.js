@@ -14,6 +14,6 @@ module.exports = function(app) {
     app.delete('/user/:id', controllers.deleteUser);
 
 
-    app.get('/user/:uId/sprint/', controllers.findAllSprintsByUser);
-    app.get('/user/:uId/sprint/:sprintId/interaction', controllers.findAllInteractionBySprint);
+    app.get('/user/:uId/sprints', controllers.findAllSprintsByUser);
+    app.get('/user/:uId/sprint/:sId/interactions', controllers.findAllInteractionBySprint);
 };

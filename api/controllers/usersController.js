@@ -1,8 +1,10 @@
 /* globals module, require*/
 
 'use strict';
-var User = require('./../models/userModel.js');
-var Sprint = require('./../models/sprintModel.js');
+var User = require('./../models/userModel'),
+    Sprint = require('./../models/sprintModel'),
+    Interaction = require('./../models/interactionModel');
+
 module.exports = {
     findAllUsers: function(req, res) {
         return User.find(function(err, users) {
@@ -116,9 +118,32 @@ module.exports = {
         });
     },
     findAllSprintsByUser: function (req,res) {
-
+        Sprint.find({ user: req.params.uId }, function (err, sprints) {
+            if(!err) {
+                return res.send({status: 'OK', sprints:sprints});
+            } else {
+                res.statusCode = 500;
+                console.error('Error', res.statusCode, err.message);
+                return res.send({ error: 'Server error' });
+            }
+        });
     },
-    findAllInteractionBySprint: function () {
-
+    findAllInteractionBySprint: function (req, res) {
+        Sprint.findOne({ user: req.params.uId }, function (err, sprints) {
+            if(sprints && (sprints[0] || sprints._id) && !err) {
+                Interaction.find({ sprint: req.params.sId }, function (err, interactions) {
+                    if(!err) {
+                        return res.send({status: 'OK', interactions:interactions});
+                    } else {
+                        res.statusCode = 500;
+                        console.error('Error', res.statusCode, err.message);
+                        return res.send({ error: 'Server error' });
+                    }
+                });
+            } else {
+                res.statusCode = 500;
+                return res.send({ error: 'Server error' });
+            }
+        });
     }
 };

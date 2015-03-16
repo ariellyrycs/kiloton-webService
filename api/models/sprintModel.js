@@ -31,10 +31,6 @@ var mongoose = require('mongoose'),
         user: {
             type: Schema.ObjectId,
             ref: 'user'
-        },
-        interaction: {
-            type: Schema.ObjectId,
-            red: 'interaction'
         }
     });
 
