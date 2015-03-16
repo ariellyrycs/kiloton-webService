@@ -129,21 +129,28 @@ module.exports = {
         });
     },
     findAllInteractionBySprint: function (req, res) {
-        Sprint.findOne({ user: req.params.uId }, function (err, sprints) {
-            if(sprints && (sprints[0] || sprints._id) && !err) {
-                Interaction.find({ sprint: req.params.sId }, function (err, interactions) {
-                    if(!err) {
-                        return res.send({status: 'OK', interactions:interactions});
-                    } else {
-                        res.statusCode = 500;
-                        console.error('Error', res.statusCode, err.message);
-                        return res.send({ error: 'Server error' });
-                    }
-                });
+        Sprint.findOne({user: req.params.uId}, function (err, sprints) {
+            if (sprints && !err) {
+                if (sprints._id) {
+                    Interaction.find({sprint: req.params.sId}, function (err, interactions) {
+                        if (!err) {
+                            return res.send({status: 'OK', interactions: interactions});
+                        } else {
+                            res.statusCode = 500;
+                            return res.send({error: 'Server error'});
+                        }
+                    });
+                } else {
+                    res.statusCode = 404;
+                    return res.send({error: 'Not found'});
+                }
             } else {
                 res.statusCode = 500;
-                return res.send({ error: 'Server error' });
+                return res.send({error: 'Server error'});
             }
         });
+    },
+    findAll: function () {
+
     }
 };
