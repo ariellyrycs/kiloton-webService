@@ -25,7 +25,7 @@ fs.readdirSync(__dirname + '/routes').forEach(function (fileName) {
     }
 });
 
-mongoose.connect('mongodb://localhost/users', function(err) {
+mongoose.connect('mongodb://localhost/kiloton', function(err) {
     if(err) {
         console.log('error connecting to MongoDB Database. ' + err);
     } else {
