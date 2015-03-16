@@ -23,6 +23,10 @@ var mongoose = require('mongoose'),
         modified: {
             type    : Date,
             default : Date.now
+        },
+        sprint: {
+            type: Schema.ObjectId,
+            ref: 'sprint'
         }
 });
 
