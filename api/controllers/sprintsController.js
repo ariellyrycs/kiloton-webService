@@ -1,8 +1,10 @@
 /* globals module, require*/
 
 'use strict';
-var Sprint = require('./../models/sprintModel.js');
-var User = require('./../models/userModel.js');
+var Sprint = require('./../models/sprintModel.js'),
+    User = require('./../models/userModel.js'),
+    usersController = require('./usersController'),
+    interactionController = require('./interactionsController');
 module.exports = {
     findAllSprints: function(req, res) {
         return Sprint.find(function(err, sprints) {
@@ -136,6 +138,16 @@ module.exports = {
                     next();
                 }
             });
+        });
+    },
+
+    findAllSprintsNoRelative: function (res, interactions) {
+        Sprint.find({}, function (err, sprints) {
+            if(err) {
+                res.statusCode = 404;
+                return res.send({error: 'Not found'});
+            }
+            usersController.findAllUsersNoRelative(res, interactions, sprints);
         });
     }
 };

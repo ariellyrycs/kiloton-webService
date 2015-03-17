@@ -16,7 +16,4 @@ module.exports = function(app) {
     //getting several elements
     app.get('/user/:uId/sprints', controllers.findAllSprintsByUser);
     app.get('/user/:uId/sprint/:sId/interactions', controllers.findAllInteractionBySprint);
-
-    //getting All
-    app.get('/all', controllers.findAll);
 };

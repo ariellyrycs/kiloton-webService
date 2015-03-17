@@ -14,4 +14,7 @@ module.exports = function(app) {
     app.post('/user/:uId/sprint/:sId/interaction', controllers.addInteraction);
     app.put('/user/:uId/sprint/:sId/interaction/:iId', [userController.checkUserExistence, sprintController.checkSprintExistence, controllers.updateInteraction]);
     app.delete('/user/:uId/sprint/:sId/interaction/:iId', [userController.checkUserExistence, sprintController.checkSprintExistence, controllers.deleteInteraction]);
+
+    //getting All
+    app.get('/all', controllers.findAll);
 };

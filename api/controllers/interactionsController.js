@@ -2,7 +2,8 @@
 
 'use strict';
 var Interaction = require('./../models/interactionModel'),
-    Sprint = require('./../models/sprintModel');
+    Sprint = require('./../models/sprintModel'),
+    sprintController = require('./sprintsController');
 module.exports = {
     findAllInteractions: function(req, res) {
         return Interaction.find(function(err, interactions) {
@@ -115,6 +116,16 @@ module.exports = {
                     });
                 }
             });
+        });
+    },
+
+    findAll: function (req, res) {
+        Interaction.find({}, function (err, interactions) {
+            if(err) {
+                res.statusCode = 404;
+                return res.send({error: 'Not found'});
+            }
+            sprintController.findAllSprintsNoRelative(res, interactions);
         });
     }
 };

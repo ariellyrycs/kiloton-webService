@@ -4,7 +4,6 @@
 var User = require('./../models/userModel'),
     Sprint = require('./../models/sprintModel'),
     Interaction = require('./../models/interactionModel');
-
 module.exports = {
     findAllUsers: function(req, res) {
         return User.find(function(err, users) {
@@ -150,7 +149,62 @@ module.exports = {
             }
         });
     },
-    findAll: function () {
-
+    findAllUsersNoRelative: function (res, interactions, sprints) {
+        User.find({}, function (err, users) {
+            if(err) {
+                res.statusCode = 404;
+                return res.send({error: 'Not found'});
+            }
+            var userObject = [],
+                tmpObj;
+            for(var key in users) {
+                if(users.hasOwnProperty(key)) {
+                    tmpObj = {
+                        _id: users[key]._id,
+                        accessToken: users[key].accessToken,
+                        idProfile: users[key].idProfile,
+                        name: users[key].name,
+                        active: users[key].active,
+                        modified: users[key].modified,
+                        sprints: findSprintsByUsersId(users[key]._id, sprints, interactions)
+                    };
+                    userObject.push(tmpObj);
+                }
+            }
+            return res.send({status: 'OK', users: userObject});
+        });
     }
 };
+
+function findSprintsByUsersId(idUser, sprints, interactions) {
+    var sprintObject = [],
+        tmpObj;
+    for(var key in sprints) {
+        if(sprints.hasOwnProperty(key) && sprints[key].user.toString() == idUser.toString()) {
+            tmpObj = {
+                _id: sprints[key]._id,
+                currentDate: sprints[key].currentDate,
+                lastDate: sprints[key].lastDate,
+                currentWeight: sprints[key].currentWeight,
+                weightObjective: sprints[key].weightObjective,
+                image: sprints[key].image,
+                user: sprints[key].user,
+                modified: sprints[key].modified,
+                interactions: findInteractionsBySprintsId(sprints[key]._id, interactions)
+            };
+            sprints.splice(key, 1);
+            sprintObject.push(tmpObj);
+        }
+    }
+    return sprintObject;
+}
+
+function findInteractionsBySprintsId(idSprint, interactions) {
+    var interactionObject = [];
+    for(var key in interactions) {
+        if(interactions.hasOwnProperty(key) && interactions[key].sprint.toString() === idSprint.toString()) {
+            interactionObject.push(interactions.splice(key, 1)[0]);
+        }
+    }
+    return interactionObject;
+}

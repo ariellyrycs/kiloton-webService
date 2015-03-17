@@ -21,6 +21,7 @@ app.use(function (req, res, next){
 jsFiles = new RegExp(".(js)$", "i");
 fs.readdirSync(__dirname + '/routes').forEach(function (fileName) {
     if(jsFiles.test(fileName)) {
+        console.log(fileName);
         require(__dirname + '/routes/' + fileName)(app);
     }
 });
