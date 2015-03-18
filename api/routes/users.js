@@ -8,7 +8,7 @@
 var controllers = require('./../controllers/usersController');
 module.exports = function(app) {
     app.get('/users', controllers.findAllUsers);
-    app.get('/user/:id', controllers.findById);
+    app.get('/user/:id', controllers.findByIdProfile);
     app.post('/user', controllers.addUser);
     app.put('/user/:id', controllers.updateUser);
     app.delete('/user/:id', controllers.deleteUser);
