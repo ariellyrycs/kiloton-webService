@@ -16,10 +16,6 @@ var mongoose = require('mongoose'),
             type    : String,
             require : true
         },
-        active: {
-            type    : Boolean,
-            require : true
-        },
         modified: {
             type    : Date,
             default : Date.now

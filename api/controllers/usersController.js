@@ -35,8 +35,7 @@ module.exports = {
         var user = new User({
             accessToken:    req.body.accessToken,
             idProfile :    req.body.idProfile,
-            name:    req.body.name,
-            active: req.body.active
+            name:    req.body.name
         });
         user.save(function(err) {
             var toPrint = null;
@@ -51,7 +50,7 @@ module.exports = {
         });
     },
     updateUser: function(req, res) {
-        return User.find({idProfile: req.params.id}, function(err, user) {
+        return User.findOne({idProfile: req.params.id}, function(err, user) {
             if(!user) {
                 res.statusCode = 404;
                 return res.send({ error: 'Not found' });
@@ -64,9 +63,6 @@ module.exports = {
             }
             if (req.body.name !== null) {
                 user.name = req.body.name;
-            }
-            if (req.body.name !== null) {
-                user.active = req.body.active;
             }
             return user.save(function(err) {
                 if(!err) {
@@ -183,7 +179,6 @@ module.exports = {
                         accessToken: users[key].accessToken,
                         idProfile: users[key].idProfile,
                         name: users[key].name,
-                        active: users[key].active,
                         modified: users[key].modified,
                         sprints: findSprintsByUsersId(users[key]._id, sprints, interactions)
                     };
