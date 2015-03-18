@@ -58,9 +58,6 @@ module.exports = {
             if (req.body.accessToken !== null) {
                 user.accessToken = req.body.accessToken;
             }
-            if (req.body.idProfile !== null) {
-                user.idProfile = req.body.idProfile;
-            }
             if (req.body.name !== null) {
                 user.name = req.body.name;
             }

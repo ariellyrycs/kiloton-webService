@@ -9,8 +9,7 @@ var mongoose = require('mongoose'),
             require : true
         },
         idProfile: {
-            type    : String,
-            require : true
+            type    : String
         },
         name: {
             type    : String,
