@@ -112,7 +112,26 @@ module.exports = {
             } else {
                 error = new Error('cannot find user ' + req.params.uId);
                 error.status = 404;
-                return res.send(error);
+                res.send(error);
+            }
+        });
+    },
+    statusUserExistence: function (req, res) {
+        User.findOne({idProfile: req.params.uId}, function(err, user) {
+            var error;
+            if(err) {
+                error = new Error('cannot find user ' + req.params.uId);
+                error.status = 404;
+                res.send(error);
+            }
+            if (user) {
+                res.send({
+                    exists: true
+                });
+            } else {
+                res.send({
+                    exists: false
+                });
             }
         });
     },
