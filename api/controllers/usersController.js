@@ -16,7 +16,7 @@ module.exports = {
             }
         });
     },
-    findById: function(req, res) {
+    findByIdProfile: function(req, res) {
         return User.findById(req.params.id, function(err, user) {
             if(!user) {
                 res.statusCode = 404;
@@ -35,8 +35,7 @@ module.exports = {
         var user = new User({
             accessToken:    req.body.accessToken,
             idProfile :    req.body.idProfile,
-            name:    req.body.name,
-            active: req.body.active
+            name:    req.body.name
         });
         user.save(function(err) {
             var toPrint = null;
@@ -51,7 +50,14 @@ module.exports = {
         });
     },
     updateUser: function(req, res) {
-        return User.findById(req.params.id, function(err, user) {
+        var search = {};
+        if(req.params.id) {
+            search._id = req.params.id;
+        }
+        if(req.query['profile']) {
+            search.idProfile = req.query['profile'];
+        }
+        return User.findOne(search, function(err, user) {
             if(!user) {
                 res.statusCode = 404;
                 return res.send({ error: 'Not found' });
@@ -59,14 +65,8 @@ module.exports = {
             if (req.body.accessToken !== null) {
                 user.accessToken = req.body.accessToken;
             }
-            if (req.body.idProfile !== null) {
-                user.idProfile = req.body.idProfile;
-            }
             if (req.body.name !== null) {
                 user.name = req.body.name;
-            }
-            if (req.body.name !== null) {
-                user.active = req.body.active;
             }
             return user.save(function(err) {
                 if(!err) {
@@ -112,7 +112,26 @@ module.exports = {
             } else {
                 error = new Error('cannot find user ' + req.params.uId);
                 error.status = 404;
-                return res.send(error);
+                res.send(error);
+            }
+        });
+    },
+    statusUserExistence: function (req, res) {
+        User.findOne({idProfile: req.params.uId}, function(err, user) {
+            var error;
+            if(err) {
+                error = new Error('cannot find user ' + req.params.uId);
+                error.status = 404;
+                res.send(error);
+            }
+            if (user) {
+                res.send({
+                    exists: true
+                });
+            } else {
+                res.send({
+                    exists: false
+                });
             }
         });
     },
@@ -164,7 +183,6 @@ module.exports = {
                         accessToken: users[key].accessToken,
                         idProfile: users[key].idProfile,
                         name: users[key].name,
-                        active: users[key].active,
                         modified: users[key].modified,
                         sprints: findSprintsByUsersId(users[key]._id, sprints, interactions)
                     };
