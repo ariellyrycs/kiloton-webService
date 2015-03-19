@@ -17,7 +17,7 @@ module.exports = {
         });
     },
     findByIdProfile: function(req, res) {
-        return User.find({ idProfile: req.params.id}, function(err, user) {
+        return User.findById(req.params.id, function(err, user) {
             if(!user) {
                 res.statusCode = 404;
                 return res.send({ error: 'Not found' });
@@ -50,7 +50,7 @@ module.exports = {
         });
     },
     updateUser: function(req, res) {
-        return User.findOne({idProfile: req.params.id}, function(err, user) {
+        return User.findById(req.params.id, function(err, user) {
             if(!user) {
                 res.statusCode = 404;
                 return res.send({ error: 'Not found' });
@@ -80,7 +80,7 @@ module.exports = {
         });
     },
     deleteUser: function(req, res) {
-        return User.find({idProfile: req.params.id}, function(err, user) {
+        return User.findById(req.params.id, function(err, user) {
             if(!user) {
                 res.statusCode = 404;
                 return res.send({ error: 'Not found' });
@@ -98,7 +98,7 @@ module.exports = {
         });
     },
     checkUserExistence: function (req, res, next) {
-        User.findOne({idProfile: req.params.uId}, function(err, user) {
+        User.findById(req.params.uId, function(err, user) {
             var error;
             if (user) {
                 next();
