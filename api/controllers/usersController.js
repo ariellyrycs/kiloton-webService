@@ -50,7 +50,14 @@ module.exports = {
         });
     },
     updateUser: function(req, res) {
-        return User.findById(req.params.id, function(err, user) {
+        var search = {};
+        if(req.params.id) {
+            search._id = req.params.id;
+        }
+        if(req.query['profile']) {
+            search.idProfile = req.query['profile'];
+        }
+        return User.findOne(search, function(err, user) {
             if(!user) {
                 res.statusCode = 404;
                 return res.send({ error: 'Not found' });

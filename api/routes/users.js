@@ -11,6 +11,7 @@ module.exports = function(app) {
     app.get('/user/:id', controllers.findByIdProfile);
     app.post('/user', controllers.addUser);
     app.put('/user/:id', controllers.updateUser);
+    app.put('/user', controllers.updateUser);
     app.delete('/user/:id', controllers.deleteUser);
 
     //getting several elements
