@@ -149,5 +149,23 @@ module.exports = {
             }
             usersController.findAllUsersNoRelative(res, interactions, sprints);
         });
+    },
+    newUsers: function (req, res) {
+        var date = new Date(decodeURIComponent(req.query['date']));
+        Sprint.count({ "modified": { "$gte" : date }}, function (err, number) {
+            if(!err && number) {
+                Sprint.find({}, function (err, sprints) {
+                    res.send({
+                        status: 'OK',
+                        sprints: sprints
+                    });
+                });
+            } else {
+                res.send({
+                    status: 'OK',
+                    sprints: []
+                });
+            }
+        });
     }
 };

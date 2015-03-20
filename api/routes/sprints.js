@@ -12,4 +12,7 @@ module.exports = function(app) {
     app.post('/user/:uId/sprint/', [userController.checkUserExistence, controllers.addSprint]);
     app.put('/user/:uId/sprint/:sprintId', [userController.checkUserExistence, controllers.updateSprint]);
     app.delete('/user/:uId/sprint/:sprintId', [userController.checkUserExistence, controllers.deleteSprint]);
+
+    //newSprint related to the date
+    app.get('/user/:uId/sprints/news', controllers.newUsers);
 };
