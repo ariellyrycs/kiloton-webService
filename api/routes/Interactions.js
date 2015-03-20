@@ -17,4 +17,7 @@ module.exports = function(app) {
 
     //getting All
     app.get('/all', controllers.findAll);
+
+    //newSprint related to the date
+    app.get('/user/:uId/interactions/news', controllers.newInteractions);
 };
