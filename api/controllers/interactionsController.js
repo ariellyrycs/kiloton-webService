@@ -128,31 +128,35 @@ module.exports = {
             sprintController.findAllSprintsNoRelative(res, interactions);
         });
     },
-    newInteractions: function (req, res) {
+    newInteractions: function (req, res, next) {
         var date = new Date(decodeURIComponent(req.query['date']));
         Interaction
             .count({modified: {"$gte": date}})
             .exec(function (err, number) {
                 if(!err && number) {
-                    Interaction
-                        .find({})
-                        .populate( 'sprint', null, { user: { $in: [req.params.uId] } } )
-                        .exec(function(err, interactions) {
-                            if(!err) {
-                                res.send({
-                                    status: 'OK',
-                                    interactions: interactions
-                                });
-                            } else {
-                                res.send({
-                                    status:404
-                                });
-                            }
-                        });
+                    next();
                 } else {
                     res.send({
                         status:404
                     });
+                }
+            });
+    },
+    getInteractionsOfUser: function (req, res) {
+        Interaction
+            .find({})
+            .populate('sprint', null, {user: {$in: [req.params.uId]}})
+            .exec(function (err, interactions) {
+                if (!err) {
+                    res.send({
+                        status: 'OK',
+                        interactions: interactions
+                    });
+                } else {
+                    res.send({
+                        status: 404
+                    });
+
                 }
             });
     }
