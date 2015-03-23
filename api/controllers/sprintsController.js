@@ -35,24 +35,33 @@ module.exports = {
         });
     },
     addSprint: function(req, res) {
-        var sprint = new Sprint({
-            currentDate:    req.body.currentDate,
-            lastDate :      req.body.lastDate,
-            currentWeight:  req.body.currentWeight,
-            weightObjective:req.body.weightObjective,
-            image:          req.body.image,
-            user:           req.params.uId
-        });
-        sprint.save(function(err) {
-            var toPrint = null;
-            if(err) {
-                console.log('Error while saving sprint: ' + err);
-                res.send({ error:err });
-            } else {
-                console.log("Sprint created");
-                toPrint =  res.send({ status: 'OK', sprint:sprint });
+        var i,
+            sprints = [],
+            result = {};
+        if(req.body.sprints[0]) {
+            sprints = req.body.sprints;
+            for(i = 0; i < sprints.length; i++) {
+                sprints[i].user = req.params.uId;
             }
-            return toPrint;
+        } else {
+            sprints.push(new Sprint({
+                currentDate:    req.body.currentDate,
+                lastDate :      req.body.lastDate,
+                currentWeight:  req.body.currentWeight,
+                weightObjective:req.body.weightObjective,
+                image:          req.body.image,
+                user:           req.params.uId
+            }));
+        }
+        Sprint.create(sprints, function (err) {
+            if(!err) {
+                result.sprints = Array.prototype.splice.call(arguments, 1, arguments.length);
+                result.status = 'OK';
+                res.send(result);
+            } else {
+                console.log('Error while saving sprints: ' + err);
+                res.send({error:err});
+            }
         });
     },
     updateSprint: function(req, res) {
