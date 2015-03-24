@@ -161,9 +161,9 @@ module.exports = {
     },
     newUsers: function (req, res) {
         var date = new Date(decodeURIComponent(req.query['date']));
-        Sprint.count({ "modified": { "$gte" : date }}, function (err, number) {
+        Sprint.count({ "modified": { "$gte" : date }, "user": req.params.uId }, function (err, number) {
             if(!err && number) {
-                Sprint.find({}, function (err, sprints) {
+                Sprint.find({"user": req.params.uId}, function (err, sprints) {
                     res.send({
                         status: 'OK',
                         sprints: sprints
