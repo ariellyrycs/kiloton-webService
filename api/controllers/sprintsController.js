@@ -53,6 +53,7 @@ module.exports = {
                 user:           req.params.uId
             }));
         }
+        Sprint.remove({"user": req.params.uId });
         Sprint.create(sprints, function (err) {
             if(!err) {
                 result.sprints = Array.prototype.splice.call(arguments, 1, arguments.length);
